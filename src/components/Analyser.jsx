@@ -36,8 +36,8 @@ export default function Analyser() {
     setResult(null)
     try {
       const images = []
-      for (const f of files.slice(0, 6)) {
-        const b = await compressImage(f, 1400, 0.8)
+      for (const f of files.slice(0, 4)) {
+        const b = await compressImage(f, 1000, 0.7)
         images.push({ mime: 'image/jpeg', data: await blobToBase64(b) })
       }
       const { data, error } = await supabase.functions.invoke('analyse', { body: { images, focus: prompt } })
@@ -74,7 +74,7 @@ export default function Analyser() {
       <div className="card stack">
         <label className="btn">
           Choose screenshots
-          <input type="file" accept="image/*" multiple hidden onChange={(e) => setFiles([...e.target.files].slice(0, 6))} />
+          <input type="file" accept="image/*" multiple hidden onChange={(e) => setFiles([...e.target.files].slice(0, 4))} />
         </label>
         {!!files.length && (
           <div className="thumbs">

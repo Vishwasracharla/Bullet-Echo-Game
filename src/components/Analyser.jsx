@@ -46,6 +46,9 @@ export default function Analyser() {
         try {
           const j = await error.context.json()
           detail = j.error || JSON.stringify(j)
+          if (Array.isArray(j.tried) && j.tried.length) {
+            detail += '\n' + j.tried.map((t) => `• ${t.model}: ${t.error}`).join('\n')
+          }
         } catch {
           /* keep default message */
         }
@@ -90,7 +93,7 @@ export default function Analyser() {
         />
         <button onClick={analyse} disabled={busy || !files.length}>{busy ? 'Analysing…' : 'Analyse'}</button>
       </div>
-      {err && <p className="msg">{err}</p>}
+      {err && <p className="msg pre">{err}</p>}
       {result && (
         <div className="stack">
           {result.title && <h3>{result.title}</h3>}
